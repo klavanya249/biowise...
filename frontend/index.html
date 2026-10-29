@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BIOWISE AI - Estimate biogas production and monitor digester conditions.">
+  <title>BIOWISE AI | Biogas Intelligence</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">B</span><div><strong>BIOWISE AI</strong><small>INTELLIGENT ENERGY</small></div></div>
+    <nav>
+      <a class="nav-link active" href="#dashboard" data-page="dashboard">▦ <span>Dashboard</span></a>
+      <a class="nav-link" href="#estimate" data-page="estimate">◈ <span>New estimation</span></a>
+      <a class="nav-link" href="#history" data-page="history">◷ <span>Estimation history</span></a>
+      <a class="nav-link" href="#guide" data-page="guide">ⓘ <span>How it works</span></a>
+    </nav>
+    <div class="sidebar-bottom"><span class="status-dot"></span> System ready <small>Student project MVP</small></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div><p class="eyebrow">BIOGAS INTELLIGENCE PLATFORM</p><h1 id="page-title">Overview</h1></div>
+      <div class="top-actions"><span class="live-pill"><span class="status-dot"></span> Demo environment</span><button class="primary-btn" id="top-estimate">＋ New estimation</button></div>
+    </header>
+
+    <section class="page active" id="dashboard-page">
+      <div class="welcome"><div><p class="eyebrow light">TURNING WASTE INTO INTELLIGENT ENERGY</p><h2>Make every unit of organic waste count.</h2><p>Estimate biogas potential, understand digester conditions and make better operating decisions.</p><button class="light-btn" id="welcome-estimate">Calculate production <span>→</span></button></div><div class="welcome-art" aria-hidden="true"><div class="orb">♻</div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><span class="art-label">WASTE → ENERGY</span></div></div>
+
+      <div class="section-heading"><div><p class="eyebrow">AT A GLANCE</p><h2>Plant performance</h2></div><span class="muted" id="last-updated">Waiting for data</span></div>
+      <div class="stats-grid">
+        <article class="stat-card"><div class="stat-top"><span>Total estimations</span><span class="stat-icon green">◈</span></div><strong id="stat-count">0</strong><small>Saved calculations</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Latest gas estimate</span><span class="stat-icon blue">♨</span></div><strong><span id="stat-latest">—</span> <em>m³/day</em></strong><small>Most recent calculation</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Average pH</span><span class="stat-icon yellow">◉</span></div><strong id="stat-ph">—</strong><small>Across saved estimations</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Attention needed</span><span class="stat-icon red">!</span></div><strong id="stat-alerts">0</strong><small>Records with warning conditions</small></article>
+      </div>
+
+      <div class="content-grid">
+        <article class="panel chart-panel"><div class="panel-heading"><div><p class="eyebrow">RECENT OUTPUT</p><h3>Biogas production estimates</h3></div><span class="unit-tag">m³ / day</span></div><div class="chart" id="production-chart"><div class="empty-state">Your production trend will appear here after you save an estimation.</div></div></article>
+        <article class="panel"><div class="panel-heading"><div><p class="eyebrow">QUICK INSIGHT</p><h3>Operating guidance</h3></div><span class="stat-icon green">✦</span></div><div id="quick-insight" class="insight-box">Add your first estimation to receive operating guidance based on the entered parameters.</div><div class="mini-note">Guidance is rule-based and intended for educational demonstration.</div></article>
+      </div>
+      <div class="section-heading recent-heading"><div><p class="eyebrow">YOUR ACTIVITY</p><h2>Recent estimations</h2></div><a href="#history" class="text-link" data-page="history">View all →</a></div>
+      <div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Feedstock</th><th>Input</th><th>Estimated gas</th><th>Condition</th></tr></thead><tbody id="recent-table"><tr><td colspan="5" class="empty-cell">No estimations saved yet.</td></tr></tbody></table></div></div>
+    </section>
+
+    <section class="page" id="estimate-page">
+      <div class="intro-row"><div><p class="eyebrow">PRODUCTION CALCULATOR</p><h2>New biogas estimation</h2><p>Enter the feedstock and digester operating conditions to calculate an indicative daily gas estimate.</p></div><span class="unit-tag">STEP 01 · INPUT DATA</span></div>
+      <form id="estimate-form" class="panel form-panel">
+        <div class="form-section-title"><span>01</span><div><h3>Feedstock information</h3><p>Describe the organic material supplied to the digester.</p></div></div>
+        <div class="form-grid">
+          <label>Feedstock type<select id="feedstock" required><option value="cattle_dung">Cattle dung</option><option value="food_waste">Food waste</option><option value="agri_residue">Agricultural residue</option><option value="mixed">Mixed organic waste</option></select></label>
+          <label>Daily feedstock quantity <span class="field-unit">(kg/day)</span><input id="quantity" type="number" min="0.1" max="100000" step="0.1" placeholder="e.g. 100" required></label>
+          <label>Water content <span class="field-unit">(%)</span><input id="moisture" type="number" min="0" max="100" step="0.1" value="85" required></label>
+          <label>Retention time <span class="field-unit">(days)</span><input id="retention" type="number" min="1" max="180" step="1" value="30" required></label>
+        </div>
+        <div class="form-section-title second"><span>02</span><div><h3>Digester operating conditions</h3><p>Enter the latest available measurements.</p></div></div>
+        <div class="form-grid">
+          <label>Digester temperature <span class="field-unit">(°C)</span><input id="temperature" type="number" min="0" max="100" step="0.1" value="35" required></label>
+          <label>pH level<input id="ph" type="number" min="0" max="14" step="0.1" value="7" required></label>
+          <label>Organic loading rate <span class="field-unit">(kg VS/m³/day)</span><input id="organicLoad" type="number" min="0" max="20" step="0.01" value="2" required></label>
+          <label>Gas pressure <span class="field-unit">(kPa, optional)</span><input id="pressure" type="number" min="0" max="1000" step="0.1" placeholder="Leave blank if unknown"></label>
+        </div>
+        <div class="form-actions"><p>All fields are validated before calculation. Pressure is optional.</p><button class="primary-btn" type="submit" id="calculate-btn">Calculate estimate <span>→</span></button></div>
+        <div id="form-message" class="form-message" role="status"></div>
+      </form>
+      <div id="result-panel" class="panel result-panel hidden" aria-live="polite">
+        <div class="result-top"><div><p class="eyebrow">ESTIMATION RESULT</p><h3>Predicted daily biogas potential</h3></div><span id="result-status" class="condition-pill">—</span></div>
+        <div class="result-number"><strong id="result-value">0.00</strong><span>m³/day</span></div>
+        <p id="result-summary" class="muted"></p>
+        <div class="result-details"><div><span>Base potential</span><strong id="result-base">—</strong></div><div><span>Condition factor</span><strong id="result-factor">—</strong></div><div><span>Model type</span><strong>Rule-based MVP</strong></div></div>
+        <div class="recommendations"><h4>Recommended actions</h4><ul id="recommendation-list"></ul></div>
+        <p class="disclaimer">Important: This is an educational estimate using an illustrative rule-based model, not a validated plant prediction or safety diagnosis. Calibrate it with measured plant data before operational use.</p>
+      </div>
+    </section>
+
+    <section class="page" id="history-page">
+      <div class="intro-row"><div><p class="eyebrow">SAVED RECORDS</p><h2>Estimation history</h2><p>Review earlier calculations stored in your Supabase database.</p></div><button class="primary-btn" id="history-estimate">＋ New estimation</button></div>
+      <div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Feedstock</th><th>Quantity</th><th>pH</th><th>Temperature</th><th>Gas estimate</th><th>Status</th><th></th></tr></thead><tbody id="history-table"><tr><td colspan="8" class="empty-cell">Loading records…</td></tr></tbody></table></div></div>
+      <p class="mini-note">Deleting a record permanently removes it from the connected database.</p>
+    </section>
+
+    <section class="page" id="guide-page">
+      <div class="intro-row"><div><p class="eyebrow">PROJECT GUIDE</p><h2>How BIOWISE AI works</h2><p>A simple overview of the application workflow and its current estimation method.</p></div></div>
+      <div class="guide-grid">
+        <article class="panel guide-card"><span class="guide-number">01</span><h3>Collect input data</h3><p>Enter feedstock type, daily quantity, water content, retention time, temperature, pH and organic loading rate.</p></article>
+        <article class="panel guide-card"><span class="guide-number">02</span><h3>Estimate production</h3><p>The backend applies an illustrative feedstock-yield factor and operating-condition adjustments to calculate an indicative estimate.</p></article>
+        <article class="panel guide-card"><span class="guide-number">03</span><h3>Check conditions</h3><p>Rule-based checks flag pH, temperature, loading and moisture values that may need attention.</p></article>
+        <article class="panel guide-card"><span class="guide-number">04</span><h3>Save and learn</h3><p>Store each estimation in Supabase PostgreSQL and review previous results on the dashboard.</p></article>
+      </div>
+      <article class="panel methodology"><p class="eyebrow">TRANSPARENCY</p><h3>What does “AI” mean in this MVP?</h3><p>This first version does not train or run a machine-learning model. It uses a transparent, rule-based calculation so that the application works without paid APIs or a trained dataset. The calculation is a software prototype only; its feedstock factors and adjustment ranges are illustrative assumptions, not scientific constants.</p><p><strong>Future improvement:</strong> Replace the illustrative estimator with a regression or other machine-learning model trained and validated on a sufficiently large, reliable biogas dataset. Compare predictions with actual measured gas output and report model error before using it for decisions.</p></article>
+    </section>
+    <footer>© 2026 BIOWISE AI · Student project prototype <span>Built for responsible renewable-energy exploration</span></footer>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
